@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Orders (Wait-List)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <span class="logo-dot"></span>
+      <h1>Orders (Wait-List)</h1>
+    </div>
+    <nav class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="inventory.html">Main Inventory</a>
+      <a href="history.html">History</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h3>Add Order</h3>
+      <form id="orderForm" class="grid-form">
+        <label>Waybill Number
+          <input type="text" id="waybill" required />
+        </label>
+        <label>Confirm Waybill
+          <input type="text" id="confirmWaybill" required />
+        </label>
+        <label>Date
+          <input type="date" id="date" required />
+        </label>
+        <label>Item
+          <select id="itemName"></select>
+        </label>
+        <label>Quantity
+          <input type="number" id="quantity" min="1" required />
+        </label>
+        <label>Price (optional)
+          <input type="number" id="price" min="0" step="0.01" />
+        </label>
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Add to Wait-List</button>
+        </div>
+      </form>
+      <p class="muted">Tip: You can add multiple items under the same waybill before receiving.</p>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <h3>Wait-List</h3>
+        <div class="tools">
+          <input id="searchWaitlist" placeholder="Search by waybill or item..." />
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="waitlistTable">
+          <thead>
+            <tr>
+              <th>Waybill</th>
+              <th>Date</th>
+              <th>Items</th>
+              <th>Status</th>
+              <th class="actions-col">Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="receive-row">
+        <input type="text" class="input" id="arrivalWaybill" placeholder="Enter Waybill Number to Receive" />
+        <button class="btn" id="confirmArrivalBtn">Confirm Arrival</button>
+      </div>
+      <p class="muted">Once a waybill is received, it cannot be received again.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

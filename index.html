@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Poultry Store Inventory</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <span class="logo-dot"></span>
+      <h1>Poultry Store Inventory</h1>
+    </div>
+    <nav class="top-nav">
+      <a href="orders.html">Orders</a>
+      <a href="inventory.html">Main Inventory</a>
+      <a href="history.html">Item History</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <img src="img/truck.jpg" alt="Truck delivering goods" />
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h2>Track Waybills, Receive Stock, See History</h2>
+      <p>Fast, simple and reliable store movement tracking.</p>
+      <a class="btn btn-primary" href="orders.html">Go to Orders</a>
+    </div>
+  </section>
+
+  <main class="container">
+    <section class="card">
+      <h3>Quick Lookup</h3>
+      <p>Type a waybill number to check its status, items and quantities.</p>
+      <div class="lookup-row">
+        <input id="quickLookupInput" placeholder="Enter waybill number..." />
+        <button id="quickLookupBtn" class="btn">Lookup</button>
+      </div>
+      <div id="quickLookupResult" class="lookup-result"></div>
+    </section>
+
+    <section class="card">
+      <h3>How it works</h3>
+      <ul class="steps">
+        <li><strong>Add orders</strong> with a unique waybill in <em>Orders</em>.</li>
+        <li><strong>Confirm arrival</strong> to move items into <em>Main Inventory</em>.</li>
+        <li>Every movement is saved in <em>Item History</em>.</li>
+        <li><strong>Cannot receive a waybill twice</strong> — the system blocks duplicates.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const input = document.getElementById('quickLookupInput');
+      const btn = document.getElementById('quickLookupBtn');
+      const out = document.getElementById('quickLookupResult');
+      function render(result) {
+        if (!result) {
+          out.innerHTML = '<p class="muted">No match. Check the number and try again.</p>';
+          return;
+        }
+        const items = result.items.map(i => `<li>${i.name} — <strong>${i.qty}</strong>${i.price ? ` @ ${i.price}` : ''}</li>`).join('');
+        out.innerHTML = `
+          <div class="pill ${result.status === 'received' ? 'pill-success' : 'pill-warning'}">${result.status.toUpperCase()}</div>
+          <div class="lookup-grid">
+            <div><span class="muted">Waybill</span><div>${result.waybill}</div></div>
+            <div><span class="muted">Date Ordered</span><div>${result.date}</div></div>
+            <div><span class="muted">Date Received</span><div>${result.receivedAt || '—'}</div></div>
+          </div>
+          <h4>Items</h4>
+          <ul class="tight-list">${items}</ul>
+        `;
+      }
+      btn.addEventListener('click', () => render(window.AppAPI.quickLookup(input.value.trim())));
+    });
+  </script>
+</body>
+</html>
